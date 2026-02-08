@@ -23,12 +23,6 @@ body{
   text-align:center;
   color:white;
   max-width:380px;
-  animation:pop 0.6s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(0.8);opacity:0;}
-  to{transform:scale(1);opacity:1;}
 }
 
 button{
@@ -57,19 +51,11 @@ a{
   text-decoration:underline;
 }
 
-/* animations */
 @keyframes fall{
   to{
-    transform:translateY(110vh) rotate(360deg);
+    transform:translateY(110vh);
     opacity:0;
   }
-}
-
-.heart{
-  position:fixed;
-  top:-20px;
-  font-size:22px;
-  animation:fall 5s linear;
 }
 </style>
 </head>
@@ -97,11 +83,8 @@ function moveNo(){
   const noBtn = document.getElementById("noBtn");
   noBtn.style.position = "fixed";
 
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 
   noBtn.innerText = cuteTexts[Math.min(noCount, cuteTexts.length-1)];
   noCount++;
@@ -114,69 +97,15 @@ function moveNo(){
 function yesClicked(){
   const card = document.getElementById("mainCard");
 
-  typeWriter(
-    card,
-    "Yaaay 🥹❤️\n\nTumne haan kaha…\nab ye smile hamesha meri zimmedari ✨",
-    () => {
-      card.innerHTML += `
-        <br><br>
-        👉 <a href="https://shivendra1122.github.io/P-DAY/" target="_blank">
-        This is for you 💌
-        </a>
-        <br><br>
-        I love you, and I’m forever yours from now on. ❤️
-      `;
-    }
-  );
-
-  confetti();
-  hearts();
-}
-
-/* typewriter (HTML safe) */
-function typeWriter(element, text, callback){
-  let i = 0;
-  element.innerHTML = "";
-  const speed = 35;
-
-  function typing(){
-    if(i < text.length){
-      element.innerHTML += text[i] === "\n" ? "<br>" : text[i];
-      i++;
-      setTimeout(typing, speed);
-    } else if(callback){
-      callback();
-    }
-  }
-  typing();
-}
-
-/* confetti */
-function confetti(){
-  for(let i=0;i<30;i++){
-    const c = document.createElement("div");
-    c.innerHTML = "💖";
-    c.style.position="fixed";
-    c.style.left=Math.random()*100+"vw";
-    c.style.top="-20px";
-    c.style.fontSize=(20+Math.random()*15)+"px";
-    c.style.animation="fall 3s linear";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),3000);
-  }
-}
-
-/* floating hearts */
-function hearts(){
-  setInterval(()=>{
-    const h = document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.animationDuration=(3+Math.random()*3)+"s";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),5000);
-  },600);
+  card.innerHTML = `
+    <h2>Yaaay 🥹❤️</h2>
+    <p>
+      Tumne haan kaha…<br>
+      ab ye smile hamesha meri zimmedari ✨
+    </p>
+    <br>
+    👉 <a href="love.html">This is for you 💌</a>
+  `;
 }
 </script>
 
