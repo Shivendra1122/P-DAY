@@ -23,6 +23,12 @@ body{
   text-align:center;
   color:white;
   max-width:380px;
+  animation:pop 0.6s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(0.8);opacity:0;}
+  100%{transform:scale(1);opacity:1;}
 }
 
 button{
@@ -45,12 +51,23 @@ button{
   color:white;
 }
 
-/* confetti animation */
+/* confetti + hearts */
 @keyframes fall{
   to{
-    transform:translateY(110vh);
+    transform:translateY(110vh) rotate(360deg);
     opacity:0;
   }
+}
+
+.heart{
+  position:fixed;
+  top:-20px;
+  font-size:22px;
+  animation:fall 5s linear;
+}
+a{
+  color:#fff;
+  font-weight:bold;
 }
 </style>
 </head>
@@ -68,49 +85,83 @@ button{
 <script>
 let noCount = 0;
 const cuteTexts = [
-    "Arey ruk jao 😳",
-    "Itni jaldi no? 🥺",
-    "Sharma rahi ho kya? 😜",
-    "Yes hi bacha hai ab 😌💕"
+  "Arey ruk jao 😳",
+  "Itni jaldi no? 🥺",
+  "Sharma rahi ho kya? 😜",
+  "Yes hi bacha hai ab 😌💕"
 ];
 
 function moveNo(){
-    const noBtn = document.getElementById("noBtn");
-    noBtn.style.position = "fixed";
+  const noBtn = document.getElementById("noBtn");
+  noBtn.style.position = "fixed";
 
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 
-    noBtn.innerText = cuteTexts[Math.min(noCount, cuteTexts.length-1)];
-    noCount++;
+  noBtn.innerText = cuteTexts[Math.min(noCount, cuteTexts.length-1)];
+  noCount++;
 
-    if(noCount > 4){
-        noBtn.style.display = "none";
-    }
+  if(noCount > 4){
+    noBtn.style.display = "none";
+  }
 }
 
 function yesClicked(){
-    document.getElementById("mainCard").innerHTML =
-      "Yaaay 🥹❤️<br><br>Tumne haan kaha…<br>ab ye smile hamesha meri zimmedari ✨";
-    confetti();
+  const msg = `Yaaay 🥹❤️<br><br>
+  Tumne haan kaha…<br>
+  ab ye smile hamesha meri zimmedari ✨<br><br>
+  👉 <a href="https://shivendra1122.github.io/P-DAY/" target="_blank">
+  This is for you 💌</a>`;
+
+  typeWriter("mainCard", msg);
+  confetti();
+  hearts();
 }
 
-/* Cute confetti */
-function confetti(){
-    for(let i=0;i<30;i++){
-        const c = document.createElement("div");
-        c.innerHTML = "💖";
-        c.style.position="fixed";
-        c.style.left=Math.random()*100+"vw";
-        c.style.top="-20px";
-        c.style.fontSize=(20+Math.random()*15)+"px";
-        c.style.animation="fall 3s linear";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),3000);
+/* typewriter effect */
+function typeWriter(id, text){
+  let i = 0;
+  document.getElementById(id).innerHTML = "";
+  const speed = 35;
+  function typing(){
+    if(i < text.length){
+      document.getElementById(id).innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
     }
+  }
+  typing();
+}
+
+/* confetti */
+function confetti(){
+  for(let i=0;i<30;i++){
+    const c = document.createElement("div");
+    c.innerHTML = "💖";
+    c.style.position="fixed";
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-20px";
+    c.style.fontSize=(20+Math.random()*15)+"px";
+    c.style.animation="fall 3s linear";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+
+/* floating hearts */
+function hearts(){
+  setInterval(()=>{
+    const h = document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(3+Math.random()*3)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+  },500);
 }
 </script>
 
